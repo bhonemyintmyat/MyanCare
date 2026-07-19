@@ -1,0 +1,42 @@
+/* Mobile-first: these base styles are for phones.
+   The @media block at the bottom adjusts things for bigger screens. */
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+}
+
+.hero-title {
+  font-size: 2rem;
+  line-height: 1.25;
+  color: var(--color-green);
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 34rem;          /* keeps line length readable */
+  margin: 0 auto 2rem auto;  /* auto left/right centers the block */
+}
+
+.hero-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 1rem;
+}
+
+/* Larger screens: bigger headline, more breathing room */
+@media (min-width: 768px) {
+  .hero {
+    padding: 6rem 2rem;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+}

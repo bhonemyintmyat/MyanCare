@@ -2,21 +2,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-cream);
+  border-bottom: 1px solid var(--color-cream-dark);
 }
 
 .header-logo {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #0d9488;
+  color: var(--color-green);
 }
 
 .header-nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .header-nav a {
-  color: #1f2937;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.header-nav a:hover {
+  color: var(--color-green);
 }

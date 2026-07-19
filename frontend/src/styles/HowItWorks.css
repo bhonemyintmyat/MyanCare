@@ -1,0 +1,51 @@
+.how-it-works {
+  background-color: var(--color-cream-dark); /* subtle band separates sections */
+  padding: 3rem 1.5rem;
+}
+
+/* Mobile-first: steps stack vertically in a single column */
+.steps {
+  list-style: none; /* hide the <ol> numbers; we draw our own circles */
+  display: grid;
+  gap: 1.25rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.step {
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* The numbered circle */
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--color-green-soft);
+  color: var(--color-green);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-text {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+/* Wider screens: the three steps sit side by side */
+@media (min-width: 768px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr); /* three equal columns */
+  }
+}

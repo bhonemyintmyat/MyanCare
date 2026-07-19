@@ -1,0 +1,59 @@
+.pricing {
+  padding: 3rem 1.5rem;
+}
+
+.price-card {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-green-soft);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  max-width: 24rem;   /* card stays narrow even on big screens */
+  margin: 0 auto;     /* centered */
+  text-align: center;
+}
+
+.price-plan {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+}
+
+.price-amount {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-green);
+  margin: 0.5rem 0 1.25rem 0;
+}
+
+.price-period {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.price-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.price-features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-cream-dark);
+  font-size: 0.95rem;
+}
+
+/* "✓" drawn before each feature, in brand green */
+.price-features li::before {
+  content: '✓ ';
+  color: var(--color-green);
+  font-weight: 700;
+}
+
+.price-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.75rem;
+}
