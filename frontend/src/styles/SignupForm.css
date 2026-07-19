@@ -1,0 +1,59 @@
+.signup {
+  background-color: var(--color-cream-dark);
+  padding: 3rem 1.5rem;
+}
+
+/* The card wraps the whole form (and the thank-you message after submit) */
+.signup-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  max-width: 24rem; /* same width as the pricing card, for consistency */
+  margin: 0 auto;
+}
+
+/* Each label + input pair stacks vertically */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+/* Style inputs and the select the same way */
+.form-field input,
+.form-field select {
+  font: inherit; /* form controls don't inherit fonts by default */
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d5cfc0;
+  border-radius: 8px;
+  background-color: var(--color-white);
+}
+
+/* Green outline when a field is focused, matching the brand */
+.form-field input:focus,
+.form-field select:focus {
+  outline: 2px solid var(--color-green);
+  border-color: var(--color-green);
+}
+
+.signup-submit {
+  width: 100%; /* full-width button is an easier tap target on phones */
+}
+
+.signup-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.signup-thanks {
+  text-align: center;
+  color: var(--color-text-muted);
+}

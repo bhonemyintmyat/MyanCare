@@ -24,7 +24,8 @@ function Pricing() {
           <li>Works on any GSM phone — no apps, no internet</li>
         </ul>
 
-        <a href="#" className="btn">
+        {/* Scrolls down to the signup form section */}
+        <a href="#signup" className="btn">
           Get Started
         </a>
         <p className="price-note">Cancel anytime.</p>

@@ -1,6 +1,7 @@
 import Hero from '../components/Hero.jsx'
 import HowItWorks from '../components/HowItWorks.jsx'
 import Pricing from '../components/Pricing.jsx'
+import SignupForm from '../components/SignupForm.jsx'
 
 /*
  * Home is a "page": it doesn't have much of its own markup,
@@ -14,6 +15,7 @@ function Home() {
       <Hero />
       <HowItWorks />
       <Pricing />
+      <SignupForm />
     </main>
   )
 }
