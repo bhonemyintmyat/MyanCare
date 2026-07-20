@@ -1,0 +1,266 @@
+/* ============================================================
+   Dashboard page + its four section cards.
+   One file for the whole dashboard since the sections are
+   designed together as one screen.
+   ============================================================ */
+
+.dashboard {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.dashboard-greeting {
+  font-size: 1.6rem;
+  color: var(--color-green);
+}
+
+.dashboard-subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Mobile-first: cards stack in one column.
+   On wide screens, "grid-template-areas" draws the layout like a
+   little ASCII map — each name below matches a grid-area on a card. */
+.dashboard-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1.2fr 1fr;
+    grid-template-areas:
+      'parent  subscription'
+      'reports voice';
+    align-items: start; /* cards keep their own height instead of stretching */
+  }
+
+  .parent-card {
+    grid-area: parent;
+  }
+  .reports-card {
+    grid-area: reports;
+  }
+  .voice-card {
+    grid-area: voice;
+  }
+  .subscription-card {
+    grid-area: subscription;
+  }
+}
+
+/* ---- Shared card look ---- */
+
+.dash-card {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-green-soft);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.dash-card-title {
+  font-size: 1.05rem;
+  color: var(--color-green);
+  margin-bottom: 1rem;
+}
+
+/* ---- 1. Parent card ---- */
+
+.parent-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.parent-detail {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.next-call {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-green-soft);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 1rem;
+}
+
+.next-call-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-green);
+  font-weight: 600;
+}
+
+.next-call-time {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* ---- 2. Call reports ---- */
+
+.report-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.report {
+  border: 1px solid var(--color-cream-dark);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.report-date {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.report-summary {
+  font-size: 0.95rem;
+}
+
+.report-caller {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+/* Mood badges: colored pill + a dot drawn with ::before.
+   Color alone isn't enough (color-blind users), so each badge
+   also has its text label. */
+.mood-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+}
+
+.mood-badge::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: currentColor; /* dot inherits the badge's text color */
+}
+
+.mood-good {
+  background-color: #e3f2e6;
+  color: #1e6b34;
+}
+
+.mood-okay {
+  background-color: #fdf3d7;
+  color: #93610a;
+}
+
+.mood-concerning {
+  background-color: #fdecea;
+  color: #b3261e;
+}
+
+/* ---- 3. Voice note ---- */
+
+.voice-intro {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.voice-error {
+  background-color: #fdecea;
+  color: #b3261e;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.voice-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Recording in progress: the stop button turns red */
+.voice-stop {
+  background-color: #b3261e;
+}
+
+.voice-stop:hover {
+  background-color: #8f1d17;
+}
+
+/* The upload "button" is really a <label> for a hidden file input */
+.voice-upload {
+  display: inline-block;
+  border: 2px solid var(--color-green);
+  color: var(--color-green);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.voice-upload:hover {
+  background-color: var(--color-green-soft);
+}
+
+.voice-recording-hint {
+  margin-top: 0.75rem;
+  color: #b3261e;
+  font-size: 0.9rem;
+}
+
+.voice-preview {
+  margin-top: 1rem;
+}
+
+.voice-player {
+  width: 100%; /* audio controls stretch to the card width */
+}
+
+.voice-save {
+  margin-top: 0.75rem;
+}
+
+.voice-saved {
+  color: #1e6b34;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+/* ---- 4. Subscription ---- */
+
+.sub-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-cream-dark);
+  font-size: 0.95rem;
+}
+
+.sub-row:last-child {
+  border-bottom: none;
+}
+
+.sub-label {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}

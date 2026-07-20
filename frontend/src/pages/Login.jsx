@@ -46,7 +46,7 @@ function Login() {
     setServerError('')
     try {
       await login(values.email.trim(), values.password)
-      navigate('/')
+      navigate('/dashboard')
     } catch (error) {
       // e.g. "Email or password doesn't match."
       setServerError(error.message)

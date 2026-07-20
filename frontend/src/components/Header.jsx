@@ -20,8 +20,9 @@ function Header() {
         <a href="/#pricing">Pricing</a>
 
         {user ? (
-          // Logged in: greet by first name, offer log out
+          // Logged in: link to their dashboard, greet, offer log out
           <>
+            <Link to="/dashboard">Dashboard</Link>
             <span className="header-user">Hi, {user.fullName.split(' ')[0]}</span>
             <button type="button" className="header-logout" onClick={logout}>
               Log out

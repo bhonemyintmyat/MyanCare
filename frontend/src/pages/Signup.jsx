@@ -85,7 +85,7 @@ function Signup() {
         country: values.country,
         password: values.password,
       })
-      navigate('/') // success → back to the home page, now logged in
+      navigate('/dashboard') // success → straight to their dashboard
     } catch (error) {
       setServerError(error.message)
     } finally {
