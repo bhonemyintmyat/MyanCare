@@ -1,0 +1,102 @@
+.onboarding {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  min-height: 60vh;
+}
+
+.onboarding-title {
+  font-size: 1.5rem;
+  color: var(--color-green);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.onboarding-card {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-green-soft);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+}
+
+.onboarding-step-title {
+  font-size: 1.15rem;
+  margin-bottom: 1.25rem;
+}
+
+/* fieldset has heavy browser defaults — strip them back */
+.onboarding-form fieldset {
+  border: none;
+}
+
+.checkbox-legend {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Each checkbox + its label text on one comfortable tap row */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.checkbox-row input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--color-green); /* colors the native checkbox */
+}
+
+.onboarding-form textarea {
+  font: inherit;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d5cfc0;
+  border-radius: 8px;
+  resize: vertical; /* users can drag taller, but not sideways */
+}
+
+.onboarding-form textarea:focus {
+  outline: 2px solid var(--color-green);
+  border-color: var(--color-green);
+}
+
+.optional-tag {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+/* Back on the left, Next/Finish on the right */
+.onboarding-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+/* Outlined "secondary" button so Back doesn't compete with Next */
+.btn-secondary {
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-green);
+  background: none;
+  border: 2px solid var(--color-green);
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-green-soft);
+}
+
+.onboarding-success {
+  text-align: center;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+}

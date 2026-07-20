@@ -1,0 +1,69 @@
+.stepper {
+  list-style: none;
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.stepper-step {
+  flex: 1; /* each step takes equal width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative; /* anchor for the connector line below */
+}
+
+/* Connector line between circles, drawn with ::before on every
+   step except the first, sitting at circle height */
+.stepper-step:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 0.9rem; /* half the circle height */
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-cream-dark);
+  z-index: 0;
+}
+
+/* The line "fills in" green once the step is reached */
+.stepper-active:not(:first-child)::before,
+.stepper-done:not(:first-child)::before {
+  background-color: var(--color-green);
+}
+
+.stepper-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background-color: var(--color-cream-dark);
+  color: var(--color-text-muted);
+  position: relative;
+  z-index: 1; /* circles sit on top of the connector lines */
+}
+
+.stepper-active .stepper-circle {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.stepper-done .stepper-circle {
+  background-color: var(--color-green-soft);
+  color: var(--color-green);
+}
+
+.stepper-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.stepper-active .stepper-label {
+  color: var(--color-green);
+  font-weight: 600;
+}

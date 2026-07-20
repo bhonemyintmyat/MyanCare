@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import Signup from './pages/Signup.jsx'
 import Login from './pages/Login.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Onboarding from './pages/Onboarding.jsx'
 
 /*
  * App is the root component.
@@ -29,6 +30,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
             </ProtectedRoute>
           }
         />

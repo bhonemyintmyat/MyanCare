@@ -30,50 +30,8 @@
   margin: 0.5rem 0 1.5rem 0;
 }
 
-/* Red banner for errors returned by the (mock) server */
-.auth-server-error {
-  background-color: #fdecea;
-  color: #b3261e;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  margin-bottom: 1.25rem;
-}
-
-/* Label + input pairs, stacked vertically */
-.form-field {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.25rem;
-}
-
-.form-field label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-}
-
-.form-field input,
-.form-field select {
-  font: inherit;
-  padding: 0.65rem 0.85rem;
-  border: 1px solid #d5cfc0;
-  border-radius: 8px;
-  background-color: var(--color-white);
-}
-
-.form-field input:focus,
-.form-field select:focus {
-  outline: 2px solid var(--color-green);
-  border-color: var(--color-green);
-}
-
-/* Small red message under a field that failed validation */
-.field-error {
-  color: #b3261e;
-  font-size: 0.85rem;
-  margin-top: 0.3rem;
-}
+/* .form-field, .field-error, and .auth-server-error moved to
+   global.css — the onboarding wizard shares them now. */
 
 .auth-submit {
   width: 100%;
