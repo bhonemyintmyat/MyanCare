@@ -8,8 +8,9 @@ function Footer() {
         Caring calls home, wherever you work.
       </p>
       <nav className="footer-links">
-        <a href="#how-it-works">How it works</a>
-        <a href="#pricing">Pricing</a>
+        {/* "/#..." (not just "#...") so these also work from /signup and /login */}
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#pricing">Pricing</a>
         <a href="mailto:hello@myancare.example">Contact</a>
       </nav>
       <p className="footer-copyright">

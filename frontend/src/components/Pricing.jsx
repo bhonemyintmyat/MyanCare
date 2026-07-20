@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import '../styles/Pricing.css'
 
 /*
@@ -24,10 +25,10 @@ function Pricing() {
           <li>Works on any GSM phone — no apps, no internet</li>
         </ul>
 
-        {/* Scrolls down to the signup form section */}
-        <a href="#signup" className="btn">
+        {/* Navigates to the signup page (no reload, thanks to React Router) */}
+        <Link to="/signup" className="btn">
           Get Started
-        </a>
+        </Link>
         <p className="price-note">Cancel anytime.</p>
       </div>
     </section>

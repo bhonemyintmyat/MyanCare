@@ -1,17 +1,27 @@
+import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
+import Signup from './pages/Signup.jsx'
+import Login from './pages/Login.jsx'
 
 /*
  * App is the root component.
- * Header and Footer appear on every page, with the current
- * page's content sandwiched in between.
+ * Header and Footer stay on every page; <Routes> swaps the middle
+ * part depending on the URL:
+ *   /        → Home (the landing page)
+ *   /signup  → Signup form
+ *   /login   → Login form
  */
 function App() {
   return (
     <>
       <Header />
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
       <Footer />
     </>
   )
