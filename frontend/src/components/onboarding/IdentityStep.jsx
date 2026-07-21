@@ -9,6 +9,8 @@ import { identitySchema, getFieldErrors } from '../../schemas/elderSchemas.js'
  * - values live in the Zustand store (so refresh keeps them)
  * - errors live in local useState (a refresh clearing errors is fine)
  * - "Next" validates with this step's zod schema before advancing
+ * - aria-invalid + aria-describedby connect each field to its error
+ *   so screen readers read the message when the field is focused
  */
 function IdentityStep() {
   const { identity, updateSection, setStep, step } = useOnboardingStore()
@@ -33,7 +35,9 @@ function IdentityStep() {
 
   return (
     <form className="onboarding-form" onSubmit={handleNext} noValidate>
-      <h2 className="onboarding-step-title">About your parent</h2>
+      <h2 className="onboarding-step-title" tabIndex={-1}>
+        About your parent
+      </h2>
 
       <div className="form-field">
         <label htmlFor="name">Full name</label>
@@ -44,8 +48,14 @@ function IdentityStep() {
           value={identity.name}
           onChange={handleChange}
           placeholder="e.g. Daw Khin Myint"
+          aria-invalid={Boolean(errors.name)}
+          aria-describedby={errors.name ? 'name-error' : undefined}
         />
-        {errors.name && <p className="field-error">{errors.name}</p>}
+        {errors.name && (
+          <p className="field-error" id="name-error">
+            {errors.name}
+          </p>
+        )}
       </div>
 
       <div className="form-field">
@@ -57,8 +67,14 @@ function IdentityStep() {
           value={identity.age}
           onChange={handleChange}
           placeholder="e.g. 72"
+          aria-invalid={Boolean(errors.age)}
+          aria-describedby={errors.age ? 'age-error' : undefined}
         />
-        {errors.age && <p className="field-error">{errors.age}</p>}
+        {errors.age && (
+          <p className="field-error" id="age-error">
+            {errors.age}
+          </p>
+        )}
       </div>
 
       <div className="form-field">
@@ -70,8 +86,14 @@ function IdentityStep() {
           value={identity.phone}
           onChange={handleChange}
           placeholder="09 xxx xxx xxx"
+          aria-invalid={Boolean(errors.phone)}
+          aria-describedby={errors.phone ? 'phone-error' : undefined}
         />
-        {errors.phone && <p className="field-error">{errors.phone}</p>}
+        {errors.phone && (
+          <p className="field-error" id="phone-error">
+            {errors.phone}
+          </p>
+        )}
       </div>
 
       <div className="form-field">
@@ -83,8 +105,14 @@ function IdentityStep() {
           value={identity.city}
           onChange={handleChange}
           placeholder="e.g. Mandalay"
+          aria-invalid={Boolean(errors.city)}
+          aria-describedby={errors.city ? 'city-error' : undefined}
         />
-        {errors.city && <p className="field-error">{errors.city}</p>}
+        {errors.city && (
+          <p className="field-error" id="city-error">
+            {errors.city}
+          </p>
+        )}
       </div>
 
       <div className="onboarding-nav">

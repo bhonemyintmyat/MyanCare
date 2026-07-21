@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useToast } from '../../context/ToastContext.jsx'
 import '../../styles/Dashboard.css'
 
 /*
@@ -11,8 +12,16 @@ import '../../styles/Dashboard.css'
  *
  * useRef (instead of useState) holds the recorder and chunks because
  * changing them should NOT re-render the page — they're just plumbing.
+ *
+ * Accessibility:
+ * - one toggle button with aria-pressed, so screen readers announce
+ *   "Record, toggle button, pressed" while recording
+ * - status messages use role="status" (announced politely) and the
+ *   error uses role="alert" (announced immediately)
  */
 function VoiceNote() {
+  const addToast = useToast()
+
   const [recording, setRecording] = useState(false)
   const [audioUrl, setAudioUrl] = useState(null) // playback source when set
   const [error, setError] = useState('')
@@ -68,8 +77,9 @@ function VoiceNote() {
     // TODO(real API): upload the audio to the server, e.g.
     //   const formData = new FormData()
     //   formData.append('voiceNote', audioBlob)
-    //   await fetch('/api/voice-note', { method: 'POST', body: formData })
+    //   await fetch(`${API_URL}/voice-note`, { method: 'POST', body: formData })
     setSaved(true)
+    addToast('Voice note saved — it will play on the next call.')
   }
 
   return (
@@ -80,18 +90,25 @@ function VoiceNote() {
         <strong>your parent</strong> at the start of the call.
       </p>
 
-      {error && <p className="voice-error">{error}</p>}
+      {error && (
+        <p className="voice-error" role="alert">
+          {error}
+        </p>
+      )}
 
       <div className="voice-controls">
-        {recording ? (
-          <button type="button" className="btn voice-stop" onClick={stopRecording}>
-            ■ Stop recording
-          </button>
-        ) : (
-          <button type="button" className="btn" onClick={startRecording}>
-            ● Record
-          </button>
-        )}
+        {/* One toggle button: label AND aria-pressed change together.
+            aria-hidden hides the ●/■ symbols from screen readers —
+            they'd be read out loud as "black circle" otherwise. */}
+        <button
+          type="button"
+          className={recording ? 'btn voice-stop' : 'btn'}
+          onClick={recording ? stopRecording : startRecording}
+          aria-pressed={recording}
+        >
+          <span aria-hidden="true">{recording ? '■' : '●'}</span>{' '}
+          {recording ? 'Stop recording' : 'Record'}
+        </button>
 
         {/* The label is styled as a button; the real file input is hidden.
             (Browsers don't allow much styling on <input type="file"> itself.) */}
@@ -106,16 +123,26 @@ function VoiceNote() {
         </label>
       </div>
 
+      {/* role="status" = announced by screen readers when it appears */}
       {recording && (
-        <p className="voice-recording-hint">Recording… speak your message now.</p>
+        <p className="voice-recording-hint" role="status">
+          Recording… speak your message now.
+        </p>
       )}
 
       {/* Playback + save appear only once there's something to play */}
       {audioUrl && (
         <div className="voice-preview">
-          <audio controls src={audioUrl} className="voice-player" />
+          <audio
+            controls
+            src={audioUrl}
+            className="voice-player"
+            aria-label="Preview of your voice note"
+          />
           {saved ? (
-            <p className="voice-saved">✓ Saved — it will play on the next call.</p>
+            <p className="voice-saved" role="status">
+              ✓ Saved — it will play on the next call.
+            </p>
           ) : (
             <button type="button" className="btn voice-save" onClick={handleSave}>
               Save for next call

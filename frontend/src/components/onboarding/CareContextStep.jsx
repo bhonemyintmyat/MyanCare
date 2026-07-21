@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useOnboardingStore } from '../../stores/onboardingStore.js'
+import { useToast } from '../../context/ToastContext.jsx'
 import {
   careContextSchema,
   elderSchema,
@@ -14,7 +15,7 @@ import { createElder } from '../../services/eldersService.js'
  * 1. its own fields with careContextSchema (like the other steps)
  * 2. the WHOLE wizard with the composed elderSchema — belt and
  *    braces in case earlier data was tampered with or lost
- * Then it "POSTs" to the mock /elders API.
+ * Then it POSTs to /elders (answered by MSW in development).
  *
  * Props:
  *   onDone(createdElder) — called after a successful save so the
@@ -23,6 +24,7 @@ import { createElder } from '../../services/eldersService.js'
 function CareContextStep({ onDone }) {
   const store = useOnboardingStore()
   const { careContext, updateSection, setStep, step, reset } = store
+  const addToast = useToast()
 
   const [errors, setErrors] = useState({})
   const [serverError, setServerError] = useState('')
@@ -60,16 +62,18 @@ function CareContextStep({ onDone }) {
       return
     }
 
-    // 3. POST to the mock API. Note we submit fullResult.data (the
+    // 3. POST to the API. Note we submit fullResult.data (the
     //    parsed output) — zod has already coerced age to a number.
     setSubmitting(true)
     setServerError('')
     try {
       const created = await createElder(fullResult.data)
+      addToast(`${created.identity.name} has been added.`)
       reset() // clear the wizard so it starts fresh next time
       onDone(created)
     } catch (error) {
       setServerError(error.message)
+      addToast('Could not save the profile. Please try again.', 'error')
     } finally {
       setSubmitting(false)
     }
@@ -77,9 +81,15 @@ function CareContextStep({ onDone }) {
 
   return (
     <form className="onboarding-form" onSubmit={handleSubmit} noValidate>
-      <h2 className="onboarding-step-title">Care context</h2>
+      <h2 className="onboarding-step-title" tabIndex={-1}>
+        Care context
+      </h2>
 
-      {serverError && <p className="auth-server-error">{serverError}</p>}
+      {serverError && (
+        <p className="auth-server-error" role="alert">
+          {serverError}
+        </p>
+      )}
 
       <div className="form-field">
         <label htmlFor="conditions">
@@ -94,7 +104,6 @@ function CareContextStep({ onDone }) {
           onChange={handleChange}
           placeholder="e.g. High blood pressure — takes medicine every morning"
         />
-        {errors.conditions && <p className="field-error">{errors.conditions}</p>}
       </div>
 
       <div className="form-field">
@@ -110,7 +119,6 @@ function CareContextStep({ onDone }) {
           onChange={handleChange}
           placeholder="e.g. Cooking, the monastery, football, grandchildren"
         />
-        {errors.topics && <p className="field-error">{errors.topics}</p>}
       </div>
 
       <div className="form-field">
@@ -122,9 +130,13 @@ function CareContextStep({ onDone }) {
           value={careContext.emergencyName}
           onChange={handleChange}
           placeholder="Someone nearby we can call if we're worried"
+          aria-invalid={Boolean(errors.emergencyName)}
+          aria-describedby={errors.emergencyName ? 'emergencyName-error' : undefined}
         />
         {errors.emergencyName && (
-          <p className="field-error">{errors.emergencyName}</p>
+          <p className="field-error" id="emergencyName-error">
+            {errors.emergencyName}
+          </p>
         )}
       </div>
 
@@ -137,9 +149,13 @@ function CareContextStep({ onDone }) {
           value={careContext.emergencyPhone}
           onChange={handleChange}
           placeholder="09 xxx xxx xxx"
+          aria-invalid={Boolean(errors.emergencyPhone)}
+          aria-describedby={errors.emergencyPhone ? 'emergencyPhone-error' : undefined}
         />
         {errors.emergencyPhone && (
-          <p className="field-error">{errors.emergencyPhone}</p>
+          <p className="field-error" id="emergencyPhone-error">
+            {errors.emergencyPhone}
+          </p>
         )}
       </div>
 

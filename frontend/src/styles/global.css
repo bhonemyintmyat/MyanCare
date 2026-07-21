@@ -73,6 +73,64 @@ html {
   margin-bottom: 2rem;
 }
 
+/* ---- Accessibility helpers ---- */
+
+/* The skip link sits off-screen until a keyboard user Tabs to it,
+   then appears at the top-left so they can jump past the nav */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 200;
+  background-color: var(--color-green);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  top: 0;
+}
+
+/* The main content container receives focus on route change
+   (see RouteFocus.jsx) — it shouldn't show a focus outline */
+#main-content:focus {
+  outline: none;
+}
+
+/* ---- Route loading & error pages ---- */
+
+/* Shown by <Suspense> while a lazy page's code downloads */
+.route-loading {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+/* Shared by the 404 page and the ErrorBoundary fallback */
+.error-page {
+  min-height: 50vh;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.error-title {
+  font-size: 1.8rem;
+  color: var(--color-green);
+}
+
+.error-text {
+  color: var(--color-text-muted);
+  max-width: 26rem;
+}
+
 /* ---- Shared form styles ----
    Used by the auth pages AND the onboarding wizard, so they live
    here instead of being copied into each page's stylesheet. */

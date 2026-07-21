@@ -24,6 +24,12 @@
   margin-bottom: 1.25rem;
 }
 
+/* Headings receive focus programmatically on step change —
+   no visible ring needed since focus never gets here by Tab */
+.onboarding-step-title:focus {
+  outline: none;
+}
+
 /* fieldset has heavy browser defaults — strip them back */
 .onboarding-form fieldset {
   border: none;

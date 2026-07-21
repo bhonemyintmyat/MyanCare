@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import '../styles/AuthForm.css'
 
 /*
@@ -40,8 +41,16 @@ function validate(values) {
   return errors
 }
 
+/*
+ * Accessibility notes on this form:
+ * - every input is linked to its <label> via htmlFor/id
+ * - aria-invalid tells screen readers a field failed validation
+ * - aria-describedby points at the error message's id, so the
+ *   message is read aloud when the field is focused
+ */
 function Signup() {
   const { signup } = useAuth()
+  const addToast = useToast()
   const navigate = useNavigate() // lets us redirect after success
 
   const [values, setValues] = useState({
@@ -53,8 +62,8 @@ function Signup() {
     confirmPassword: '',
   })
   const [errors, setErrors] = useState({}) // per-field validation messages
-  const [serverError, setServerError] = useState('') // errors from the (mock) API
-  const [submitting, setSubmitting] = useState(false) // true while "API call" runs
+  const [serverError, setServerError] = useState('') // errors from the API
+  const [submitting, setSubmitting] = useState(false) // true while the API call runs
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -73,7 +82,7 @@ function Signup() {
     setErrors(foundErrors)
     if (Object.keys(foundErrors).length > 0) return
 
-    // 2. Call the (mock) API. try/catch handles rejected promises,
+    // 2. Call the API. try/catch handles rejected promises,
     //    like "email already exists".
     setSubmitting(true)
     setServerError('')
@@ -85,6 +94,7 @@ function Signup() {
         country: values.country,
         password: values.password,
       })
+      addToast('Welcome to MyanCare! Your account is ready.')
       navigate('/dashboard') // success → straight to their dashboard
     } catch (error) {
       setServerError(error.message)
@@ -101,8 +111,12 @@ function Signup() {
           A few details and you&apos;re ready to set up caring calls.
         </p>
 
-        {/* Error coming back from the "server", e.g. duplicate email */}
-        {serverError && <p className="auth-server-error">{serverError}</p>}
+        {/* role="alert" makes screen readers announce this immediately */}
+        {serverError && (
+          <p className="auth-server-error" role="alert">
+            {serverError}
+          </p>
+        )}
 
         <div className="form-field">
           <label htmlFor="fullName">Full name</label>
@@ -113,8 +127,14 @@ function Signup() {
             value={values.fullName}
             onChange={handleChange}
             placeholder="e.g. Aung Ko Min"
+            aria-invalid={Boolean(errors.fullName)}
+            aria-describedby={errors.fullName ? 'fullName-error' : undefined}
           />
-          {errors.fullName && <p className="field-error">{errors.fullName}</p>}
+          {errors.fullName && (
+            <p className="field-error" id="fullName-error">
+              {errors.fullName}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -126,8 +146,14 @@ function Signup() {
             value={values.email}
             onChange={handleChange}
             placeholder="you@example.com"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'email-error' : undefined}
           />
-          {errors.email && <p className="field-error">{errors.email}</p>}
+          {errors.email && (
+            <p className="field-error" id="email-error">
+              {errors.email}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -139,8 +165,14 @@ function Signup() {
             value={values.phone}
             onChange={handleChange}
             placeholder="+81 90 1234 5678"
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
           />
-          {errors.phone && <p className="field-error">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="field-error" id="phone-error">
+              {errors.phone}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -150,6 +182,8 @@ function Signup() {
             name="country"
             value={values.country}
             onChange={handleChange}
+            aria-invalid={Boolean(errors.country)}
+            aria-describedby={errors.country ? 'country-error' : undefined}
           >
             {/* Empty value forces a real choice; validate() rejects "" */}
             <option value="">Choose a country…</option>
@@ -158,7 +192,11 @@ function Signup() {
             <option value="thailand">Thailand</option>
             <option value="other">Other</option>
           </select>
-          {errors.country && <p className="field-error">{errors.country}</p>}
+          {errors.country && (
+            <p className="field-error" id="country-error">
+              {errors.country}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -170,8 +208,14 @@ function Signup() {
             value={values.password}
             onChange={handleChange}
             placeholder="At least 8 characters"
+            aria-invalid={Boolean(errors.password)}
+            aria-describedby={errors.password ? 'password-error' : undefined}
           />
-          {errors.password && <p className="field-error">{errors.password}</p>}
+          {errors.password && (
+            <p className="field-error" id="password-error">
+              {errors.password}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -183,13 +227,19 @@ function Signup() {
             value={values.confirmPassword}
             onChange={handleChange}
             placeholder="Same password again"
+            aria-invalid={Boolean(errors.confirmPassword)}
+            aria-describedby={
+              errors.confirmPassword ? 'confirmPassword-error' : undefined
+            }
           />
           {errors.confirmPassword && (
-            <p className="field-error">{errors.confirmPassword}</p>
+            <p className="field-error" id="confirmPassword-error">
+              {errors.confirmPassword}
+            </p>
           )}
         </div>
 
-        {/* Disabled while the fake API call runs, so it can't be double-clicked */}
+        {/* Disabled while the API call runs, so it can't be double-clicked */}
         <button type="submit" className="btn auth-submit" disabled={submitting}>
           {submitting ? 'Creating your account…' : 'Create account'}
         </button>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import '../styles/AuthForm.css'
 
 /*
@@ -9,6 +10,7 @@ import '../styles/AuthForm.css'
  */
 function Login() {
   const { login } = useAuth()
+  const addToast = useToast()
   const navigate = useNavigate()
 
   const [values, setValues] = useState({ email: '', password: '' })
@@ -45,7 +47,8 @@ function Login() {
     setSubmitting(true)
     setServerError('')
     try {
-      await login(values.email.trim(), values.password)
+      const user = await login(values.email.trim(), values.password)
+      addToast(`Welcome back, ${user.fullName.split(' ')[0]}!`)
       navigate('/dashboard')
     } catch (error) {
       // e.g. "Email or password doesn't match."
@@ -61,7 +64,11 @@ function Login() {
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-intro">Log in to manage your caring calls.</p>
 
-        {serverError && <p className="auth-server-error">{serverError}</p>}
+        {serverError && (
+          <p className="auth-server-error" role="alert">
+            {serverError}
+          </p>
+        )}
 
         <div className="form-field">
           <label htmlFor="email">Email</label>
@@ -72,8 +79,14 @@ function Login() {
             value={values.email}
             onChange={handleChange}
             placeholder="you@example.com"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'email-error' : undefined}
           />
-          {errors.email && <p className="field-error">{errors.email}</p>}
+          {errors.email && (
+            <p className="field-error" id="email-error">
+              {errors.email}
+            </p>
+          )}
         </div>
 
         <div className="form-field">
@@ -85,8 +98,14 @@ function Login() {
             value={values.password}
             onChange={handleChange}
             placeholder="Your password"
+            aria-invalid={Boolean(errors.password)}
+            aria-describedby={errors.password ? 'password-error' : undefined}
           />
-          {errors.password && <p className="field-error">{errors.password}</p>}
+          {errors.password && (
+            <p className="field-error" id="password-error">
+              {errors.password}
+            </p>
+          )}
         </div>
 
         <button type="submit" className="btn auth-submit" disabled={submitting}>

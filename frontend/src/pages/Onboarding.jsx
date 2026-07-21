@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useOnboardingStore } from '../stores/onboardingStore.js'
 import Stepper from '../components/Stepper.jsx'
@@ -20,8 +20,24 @@ const STEP_LABELS = ['Identity', 'Call preferences', 'Care context']
 function Onboarding() {
   const step = useOnboardingStore((state) => state.step)
 
-  // Set once the mock POST /elders succeeds; switches to the success view
+  // Set once the POST /elders succeeds; switches to the success view
   const [createdElder, setCreatedElder] = useState(null)
+
+  /*
+   * A11y: the URL doesn't change between steps, so RouteFocus can't
+   * help here. Instead, when the step number changes, move focus to
+   * the new step's heading (each h2 has tabIndex={-1}) so screen
+   * readers announce where the user landed.
+   */
+  const cardRef = useRef(null)
+  const isFirstRender = useRef(true)
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return // don't steal focus when the page first opens
+    }
+    cardRef.current?.querySelector('.onboarding-step-title')?.focus()
+  }, [step])
 
   if (createdElder) {
     return (
@@ -45,7 +61,7 @@ function Onboarding() {
     <main className="onboarding">
       <h1 className="onboarding-title">Set up calls for your parent</h1>
 
-      <div className="onboarding-card">
+      <div className="onboarding-card" ref={cardRef}>
         <Stepper steps={STEP_LABELS} currentStep={step} />
 
         {step === 0 && <IdentityStep />}

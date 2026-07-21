@@ -55,10 +55,16 @@ function PreferencesStep() {
 
   return (
     <form className="onboarding-form" onSubmit={handleNext} noValidate>
-      <h2 className="onboarding-step-title">Call preferences</h2>
+      <h2 className="onboarding-step-title" tabIndex={-1}>
+        Call preferences
+      </h2>
 
-      <fieldset className="form-field">
-        {/* A fieldset+legend groups related checkboxes accessibly */}
+      {/* A fieldset+legend groups related checkboxes accessibly;
+          aria-describedby ties the group error to the whole group */}
+      <fieldset
+        className="form-field"
+        aria-describedby={errors.timeWindows ? 'timeWindows-error' : undefined}
+      >
         <legend className="checkbox-legend">
           Which time windows suit them? (pick any)
         </legend>
@@ -73,7 +79,9 @@ function PreferencesStep() {
           </label>
         ))}
         {errors.timeWindows && (
-          <p className="field-error">{errors.timeWindows}</p>
+          <p className="field-error" id="timeWindows-error">
+            {errors.timeWindows}
+          </p>
         )}
       </fieldset>
 
@@ -83,6 +91,8 @@ function PreferencesStep() {
           id="language"
           value={preferences.language}
           onChange={handleLanguage}
+          aria-invalid={Boolean(errors.language)}
+          aria-describedby={errors.language ? 'language-error' : undefined}
         >
           <option value="">Choose a language…</option>
           {LANGUAGES.map((lang) => (
@@ -91,7 +101,11 @@ function PreferencesStep() {
             </option>
           ))}
         </select>
-        {errors.language && <p className="field-error">{errors.language}</p>}
+        {errors.language && (
+          <p className="field-error" id="language-error">
+            {errors.language}
+          </p>
+        )}
       </div>
 
       <div className="onboarding-nav">
