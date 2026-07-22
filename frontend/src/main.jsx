@@ -4,6 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
+// Side-effect import: initializes i18next ONCE for the whole app.
+// No provider needed — react-i18next hooks find the instance globally.
+import './i18n/config'
 import './styles/global.css'
 
 /*

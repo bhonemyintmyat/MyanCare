@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { subscription } from '../../data/mockDashboard.js'
 import '../../styles/Dashboard.css'
 
@@ -12,27 +13,33 @@ function formatDate(isoDate) {
 
 /*
  * Section 4: current plan and when the next payment is due.
+ * Row labels are translated; plan name/price/status come from the
+ * API data.
  */
 function SubscriptionCard() {
+  const { t } = useTranslation()
+
   return (
     <section className="dash-card subscription-card">
-      <h2 className="dash-card-title">Subscription</h2>
+      <h2 className="dash-card-title">{t('dashboard.subscription.title')}</h2>
 
       <div className="sub-row">
-        <span className="sub-label">Plan</span>
+        <span className="sub-label">{t('dashboard.subscription.plan')}</span>
         <span>{subscription.plan}</span>
       </div>
       <div className="sub-row">
-        <span className="sub-label">Price</span>
+        <span className="sub-label">{t('dashboard.subscription.price')}</span>
         <span>{subscription.price}</span>
       </div>
       <div className="sub-row">
-        <span className="sub-label">Status</span>
+        <span className="sub-label">{t('dashboard.subscription.status')}</span>
         {/* Reuses the green "good" badge style from the call reports */}
         <span className="mood-badge mood-good">{subscription.status}</span>
       </div>
       <div className="sub-row">
-        <span className="sub-label">Next payment</span>
+        <span className="sub-label">
+          {t('dashboard.subscription.nextPayment')}
+        </span>
         <span>{formatDate(subscription.nextPaymentDate)}</span>
       </div>
     </section>

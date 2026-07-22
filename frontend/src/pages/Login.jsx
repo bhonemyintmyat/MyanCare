@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 import '../styles/AuthForm.css'
@@ -10,6 +11,7 @@ import '../styles/AuthForm.css'
  */
 function Login() {
   const { login } = useAuth()
+  const { t } = useTranslation()
   const addToast = useToast()
   const navigate = useNavigate()
 
@@ -29,10 +31,10 @@ function Login() {
   function validate() {
     const found = {}
     if (!/^\S+@\S+\.\S+$/.test(values.email)) {
-      found.email = 'Please enter the email you signed up with.'
+      found.email = t('auth.errors.loginEmail')
     }
     if (!values.password) {
-      found.password = 'Please enter your password.'
+      found.password = t('auth.errors.loginPassword')
     }
     return found
   }
@@ -48,7 +50,7 @@ function Login() {
     setServerError('')
     try {
       const user = await login(values.email.trim(), values.password)
-      addToast(`Welcome back, ${user.fullName.split(' ')[0]}!`)
+      addToast(t('auth.loginToast', { name: user.fullName.split(' ')[0] }))
       navigate('/dashboard')
     } catch (error) {
       // e.g. "Email or password doesn't match."
@@ -61,8 +63,8 @@ function Login() {
   return (
     <main className="auth">
       <form className="auth-card" onSubmit={handleSubmit} noValidate>
-        <h1 className="auth-title">Welcome back</h1>
-        <p className="auth-intro">Log in to manage your caring calls.</p>
+        <h1 className="auth-title">{t('auth.loginTitle')}</h1>
+        <p className="auth-intro">{t('auth.loginIntro')}</p>
 
         {serverError && (
           <p className="auth-server-error" role="alert">
@@ -71,14 +73,14 @@ function Login() {
         )}
 
         <div className="form-field">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t('auth.labels.email')}</label>
           <input
             type="email"
             id="email"
             name="email"
             value={values.email}
             onChange={handleChange}
-            placeholder="you@example.com"
+            placeholder={t('auth.placeholders.email')}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'email-error' : undefined}
           />
@@ -90,14 +92,14 @@ function Login() {
         </div>
 
         <div className="form-field">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t('auth.labels.password')}</label>
           <input
             type="password"
             id="password"
             name="password"
             value={values.password}
             onChange={handleChange}
-            placeholder="Your password"
+            placeholder={t('auth.placeholders.loginPassword')}
             aria-invalid={Boolean(errors.password)}
             aria-describedby={errors.password ? 'password-error' : undefined}
           />
@@ -109,11 +111,11 @@ function Login() {
         </div>
 
         <button type="submit" className="btn auth-submit" disabled={submitting}>
-          {submitting ? 'Logging in…' : 'Log in'}
+          {submitting ? t('auth.loginSubmitting') : t('auth.loginSubmit')}
         </button>
 
         <p className="auth-switch">
-          New to MyanCare? <Link to="/signup">Create an account</Link>
+          {t('auth.newHere')} <Link to="/signup">{t('auth.signupLink')}</Link>
         </p>
       </form>
     </main>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useOnboardingStore } from '../../stores/onboardingStore.js'
 import { useToast } from '../../context/ToastContext.jsx'
 import {
@@ -24,6 +25,7 @@ import { createElder } from '../../services/eldersService.js'
 function CareContextStep({ onDone }) {
   const store = useOnboardingStore()
   const { careContext, updateSection, setStep, step, reset } = store
+  const { t } = useTranslation()
   const addToast = useToast()
 
   const [errors, setErrors] = useState({})
@@ -40,7 +42,7 @@ function CareContextStep({ onDone }) {
     event.preventDefault()
 
     // 1. This step's own fields
-    const found = getFieldErrors(careContextSchema, careContext)
+    const found = getFieldErrors(careContextSchema(t), careContext)
     if (found) {
       setErrors(found)
       return
@@ -52,12 +54,10 @@ function CareContextStep({ onDone }) {
       preferences: store.preferences,
       careContext: store.careContext,
     }
-    const fullResult = elderSchema.safeParse(fullData)
+    const fullResult = elderSchema(t).safeParse(fullData)
     if (!fullResult.success) {
       // An earlier step is invalid — send the user back to fix it
-      setServerError(
-        'Something in an earlier step needs attention — please review.',
-      )
+      setServerError(t('elderForm.errors.reviewEarlier'))
       setStep(0)
       return
     }
@@ -68,12 +68,12 @@ function CareContextStep({ onDone }) {
     setServerError('')
     try {
       const created = await createElder(fullResult.data)
-      addToast(`${created.identity.name} has been added.`)
+      addToast(t('elderForm.toastAdded', { name: created.identity.name }))
       reset() // clear the wizard so it starts fresh next time
       onDone(created)
     } catch (error) {
       setServerError(error.message)
-      addToast('Could not save the profile. Please try again.', 'error')
+      addToast(t('elderForm.toastError'), 'error')
     } finally {
       setSubmitting(false)
     }
@@ -82,7 +82,7 @@ function CareContextStep({ onDone }) {
   return (
     <form className="onboarding-form" onSubmit={handleSubmit} noValidate>
       <h2 className="onboarding-step-title" tabIndex={-1}>
-        Care context
+        {t('elderForm.care.title')}
       </h2>
 
       {serverError && (
@@ -93,8 +93,8 @@ function CareContextStep({ onDone }) {
 
       <div className="form-field">
         <label htmlFor="conditions">
-          Health conditions to keep an eye on{' '}
-          <span className="optional-tag">(optional)</span>
+          {t('elderForm.care.conditions')}{' '}
+          <span className="optional-tag">{t('elderForm.care.optional')}</span>
         </label>
         <textarea
           id="conditions"
@@ -102,14 +102,14 @@ function CareContextStep({ onDone }) {
           rows="3"
           value={careContext.conditions}
           onChange={handleChange}
-          placeholder="e.g. High blood pressure — takes medicine every morning"
+          placeholder={t('elderForm.care.conditionsPlaceholder')}
         />
       </div>
 
       <div className="form-field">
         <label htmlFor="topics">
-          Conversation topics they enjoy{' '}
-          <span className="optional-tag">(optional)</span>
+          {t('elderForm.care.topics')}{' '}
+          <span className="optional-tag">{t('elderForm.care.optional')}</span>
         </label>
         <textarea
           id="topics"
@@ -117,19 +117,19 @@ function CareContextStep({ onDone }) {
           rows="3"
           value={careContext.topics}
           onChange={handleChange}
-          placeholder="e.g. Cooking, the monastery, football, grandchildren"
+          placeholder={t('elderForm.care.topicsPlaceholder')}
         />
       </div>
 
       <div className="form-field">
-        <label htmlFor="emergencyName">Emergency contact name</label>
+        <label htmlFor="emergencyName">{t('elderForm.care.emergencyName')}</label>
         <input
           type="text"
           id="emergencyName"
           name="emergencyName"
           value={careContext.emergencyName}
           onChange={handleChange}
-          placeholder="Someone nearby we can call if we're worried"
+          placeholder={t('elderForm.care.emergencyNamePlaceholder')}
           aria-invalid={Boolean(errors.emergencyName)}
           aria-describedby={errors.emergencyName ? 'emergencyName-error' : undefined}
         />
@@ -141,14 +141,16 @@ function CareContextStep({ onDone }) {
       </div>
 
       <div className="form-field">
-        <label htmlFor="emergencyPhone">Emergency contact phone</label>
+        <label htmlFor="emergencyPhone">
+          {t('elderForm.care.emergencyPhone')}
+        </label>
         <input
           type="tel"
           id="emergencyPhone"
           name="emergencyPhone"
           value={careContext.emergencyPhone}
           onChange={handleChange}
-          placeholder="09 xxx xxx xxx"
+          placeholder={t('elderForm.care.emergencyPhonePlaceholder')}
           aria-invalid={Boolean(errors.emergencyPhone)}
           aria-describedby={errors.emergencyPhone ? 'emergencyPhone-error' : undefined}
         />
@@ -165,10 +167,10 @@ function CareContextStep({ onDone }) {
           className="btn-secondary"
           onClick={() => setStep(step - 1)}
         >
-          Back
+          {t('common.back')}
         </button>
         <button type="submit" className="btn" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Finish'}
+          {submitting ? t('common.saving') : t('common.finish')}
         </button>
       </div>
     </form>

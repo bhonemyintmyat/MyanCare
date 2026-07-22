@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useOnboardingStore } from '../../stores/onboardingStore.js'
 import { identitySchema, getFieldErrors } from '../../schemas/elderSchemas.js'
 
@@ -14,6 +15,7 @@ import { identitySchema, getFieldErrors } from '../../schemas/elderSchemas.js'
  */
 function IdentityStep() {
   const { identity, updateSection, setStep, step } = useOnboardingStore()
+  const { t } = useTranslation()
   const [errors, setErrors] = useState({})
 
   function handleChange(event) {
@@ -25,7 +27,9 @@ function IdentityStep() {
 
   function handleNext(event) {
     event.preventDefault()
-    const found = getFieldErrors(identitySchema, identity)
+    // identitySchema(t) builds the schema with messages in the
+    // active language (see elderSchemas.js for why it's a factory)
+    const found = getFieldErrors(identitySchema(t), identity)
     if (found) {
       setErrors(found)
       return
@@ -36,18 +40,18 @@ function IdentityStep() {
   return (
     <form className="onboarding-form" onSubmit={handleNext} noValidate>
       <h2 className="onboarding-step-title" tabIndex={-1}>
-        About your parent
+        {t('elderForm.identity.title')}
       </h2>
 
       <div className="form-field">
-        <label htmlFor="name">Full name</label>
+        <label htmlFor="name">{t('elderForm.identity.name')}</label>
         <input
           type="text"
           id="name"
           name="name"
           value={identity.name}
           onChange={handleChange}
-          placeholder="e.g. Daw Khin Myint"
+          placeholder={t('elderForm.identity.namePlaceholder')}
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? 'name-error' : undefined}
         />
@@ -59,14 +63,14 @@ function IdentityStep() {
       </div>
 
       <div className="form-field">
-        <label htmlFor="age">Age</label>
+        <label htmlFor="age">{t('elderForm.identity.age')}</label>
         <input
           type="number"
           id="age"
           name="age"
           value={identity.age}
           onChange={handleChange}
-          placeholder="e.g. 72"
+          placeholder={t('elderForm.identity.agePlaceholder')}
           aria-invalid={Boolean(errors.age)}
           aria-describedby={errors.age ? 'age-error' : undefined}
         />
@@ -78,14 +82,14 @@ function IdentityStep() {
       </div>
 
       <div className="form-field">
-        <label htmlFor="phone">GSM phone number</label>
+        <label htmlFor="phone">{t('elderForm.identity.phone')}</label>
         <input
           type="tel"
           id="phone"
           name="phone"
           value={identity.phone}
           onChange={handleChange}
-          placeholder="09 xxx xxx xxx"
+          placeholder={t('elderForm.identity.phonePlaceholder')}
           aria-invalid={Boolean(errors.phone)}
           aria-describedby={errors.phone ? 'phone-error' : undefined}
         />
@@ -97,14 +101,14 @@ function IdentityStep() {
       </div>
 
       <div className="form-field">
-        <label htmlFor="city">City or township</label>
+        <label htmlFor="city">{t('elderForm.identity.city')}</label>
         <input
           type="text"
           id="city"
           name="city"
           value={identity.city}
           onChange={handleChange}
-          placeholder="e.g. Mandalay"
+          placeholder={t('elderForm.identity.cityPlaceholder')}
           aria-invalid={Boolean(errors.city)}
           aria-describedby={errors.city ? 'city-error' : undefined}
         />
@@ -119,7 +123,7 @@ function IdentityStep() {
         {/* No Back button on the first step */}
         <span />
         <button type="submit" className="btn">
-          Next
+          {t('common.next')}
         </button>
       </div>
     </form>

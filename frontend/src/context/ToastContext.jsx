@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import '../styles/Toast.css'
 
 /*
@@ -20,6 +21,7 @@ const ToastContext = createContext(null)
 let nextId = 0
 
 export function ToastProvider({ children }) {
+  const { t } = useTranslation()
   const [toasts, setToasts] = useState([])
 
   const removeToast = useCallback((id) => {
@@ -49,7 +51,7 @@ export function ToastProvider({ children }) {
               type="button"
               className="toast-dismiss"
               onClick={() => removeToast(toast.id)}
-              aria-label="Dismiss notification"
+              aria-label={t('common.dismiss')}
             >
               ×
             </button>

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { useToast } from '../../context/ToastContext.jsx'
 import '../../styles/Dashboard.css'
 
@@ -20,6 +21,7 @@ import '../../styles/Dashboard.css'
  *   error uses role="alert" (announced immediately)
  */
 function VoiceNote() {
+  const { t } = useTranslation()
   const addToast = useToast()
 
   const [recording, setRecording] = useState(false)
@@ -54,9 +56,7 @@ function VoiceNote() {
       setRecording(true)
     } catch {
       // User said no, or the device has no microphone
-      setError(
-        "We couldn't access your microphone. You can upload an audio file instead.",
-      )
+      setError(t('dashboard.voice.micError'))
     }
   }
 
@@ -79,15 +79,20 @@ function VoiceNote() {
     //   formData.append('voiceNote', audioBlob)
     //   await fetch(`${API_URL}/voice-note`, { method: 'POST', body: formData })
     setSaved(true)
-    addToast('Voice note saved — it will play on the next call.')
+    addToast(t('dashboard.voice.toast'))
   }
 
   return (
     <section className="dash-card voice-card">
-      <h2 className="dash-card-title">Voice note for the next call</h2>
+      <h2 className="dash-card-title">{t('dashboard.voice.title')}</h2>
       <p className="voice-intro">
-        Record a short message — our caller will play it to{' '}
-        <strong>your parent</strong> at the start of the call.
+        {/* Trans: the translation contains <strong>…</strong> markup,
+            so translators can move the emphasis where their language
+            needs it */}
+        <Trans
+          i18nKey="dashboard.voice.intro"
+          components={{ strong: <strong /> }}
+        />
       </p>
 
       {error && (
@@ -107,13 +112,13 @@ function VoiceNote() {
           aria-pressed={recording}
         >
           <span aria-hidden="true">{recording ? '■' : '●'}</span>{' '}
-          {recording ? 'Stop recording' : 'Record'}
+          {recording ? t('dashboard.voice.stop') : t('dashboard.voice.record')}
         </button>
 
         {/* The label is styled as a button; the real file input is hidden.
             (Browsers don't allow much styling on <input type="file"> itself.) */}
         <label className="voice-upload">
-          Upload audio
+          {t('dashboard.voice.upload')}
           <input
             type="file"
             accept="audio/*"
@@ -126,7 +131,7 @@ function VoiceNote() {
       {/* role="status" = announced by screen readers when it appears */}
       {recording && (
         <p className="voice-recording-hint" role="status">
-          Recording… speak your message now.
+          {t('dashboard.voice.hint')}
         </p>
       )}
 
@@ -137,15 +142,15 @@ function VoiceNote() {
             controls
             src={audioUrl}
             className="voice-player"
-            aria-label="Preview of your voice note"
+            aria-label={t('dashboard.voice.previewLabel')}
           />
           {saved ? (
             <p className="voice-saved" role="status">
-              ✓ Saved — it will play on the next call.
+              {t('dashboard.voice.saved')}
             </p>
           ) : (
             <button type="button" className="btn voice-save" onClick={handleSave}>
-              Save for next call
+              {t('dashboard.voice.save')}
             </button>
           )}
         </div>

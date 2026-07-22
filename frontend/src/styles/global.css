@@ -28,10 +28,20 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* 'Myanmar Text' (Windows) and 'Noto Sans Myanmar' (Android/Linux)
+     make Burmese script render correctly when the UI is in Burmese */
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Myanmar Text', 'Noto Sans Myanmar', sans-serif;
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-cream);
+}
+
+/* Burmese script has stacked marks above and below the baseline —
+   it needs more vertical room than Latin text.
+   :lang(my) applies when <html lang="my"> is set (LanguageContext). */
+:lang(my) {
+  line-height: 1.9;
 }
 
 a {

@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import { withTranslation } from 'react-i18next'
 
 /*
  * ErrorBoundary: catches render-time crashes anywhere below it in
@@ -7,6 +8,8 @@ import { Component } from 'react'
  *
  * This is one of the few places React still requires a CLASS
  * component — there is no hook equivalent of componentDidCatch yet.
+ * Classes can't use hooks like useTranslation(), so the
+ * withTranslation() wrapper at the bottom injects t as a prop.
  */
 class ErrorBoundary extends Component {
   state = { hasError: false }
@@ -28,15 +31,15 @@ class ErrorBoundary extends Component {
   }
 
   render() {
+    const { t } = this.props
+
     if (this.state.hasError) {
       return (
         <main className="error-page">
-          <h1 className="error-title">Something went wrong</h1>
-          <p className="error-text">
-            Sorry — the page hit an unexpected error. Your data is safe.
-          </p>
+          <h1 className="error-title">{t('common.errorTitle')}</h1>
+          <p className="error-text">{t('common.errorText')}</p>
           <button type="button" className="btn" onClick={this.handleRetry}>
-            Try again
+            {t('common.tryAgain')}
           </button>
         </main>
       )
@@ -46,4 +49,4 @@ class ErrorBoundary extends Component {
   }
 }
 
-export default ErrorBoundary
+export default withTranslation()(ErrorBoundary)

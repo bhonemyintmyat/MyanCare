@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -31,11 +32,13 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'))
  *   anything else → 404 page
  */
 function App() {
+  const { t } = useTranslation()
+
   return (
     <>
       {/* Lets keyboard users jump past the nav straight to content */}
       <a className="skip-link" href="#main-content">
-        Skip to content
+        {t('common.skipToContent')}
       </a>
 
       {/* Moves focus into the content when the route changes */}
@@ -50,7 +53,9 @@ function App() {
             recovery screen instead of a blank white page */}
         <ErrorBoundary>
           {/* Suspense shows the fallback while a lazy page's JS loads */}
-          <Suspense fallback={<div className="route-loading">Loading…</div>}>
+          <Suspense
+            fallback={<div className="route-loading">{t('common.loading')}</div>}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />

@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 /*
  * 404 page — rendered by the catch-all route (path="*") when no
  * other route matches the URL.
  */
 function NotFound() {
+  const { t } = useTranslation()
+
   return (
     <main className="error-page">
-      <h1 className="error-title">Page not found</h1>
-      <p className="error-text">
-        That page doesn&apos;t exist — the link may be old or mistyped.
-      </p>
+      <h1 className="error-title">{t('common.notFoundTitle')}</h1>
+      <p className="error-text">{t('common.notFoundText')}</p>
       <Link to="/" className="btn">
-        Back to the home page
+        {t('common.notFoundCta')}
       </Link>
     </main>
   )

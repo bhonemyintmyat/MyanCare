@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Trans, useTranslation } from 'react-i18next'
 import { useOnboardingStore } from '../stores/onboardingStore.js'
 import Stepper from '../components/Stepper.jsx'
 import IdentityStep from '../components/onboarding/IdentityStep.jsx'
 import PreferencesStep from '../components/onboarding/PreferencesStep.jsx'
 import CareContextStep from '../components/onboarding/CareContextStep.jsx'
 import '../styles/Onboarding.css'
-
-const STEP_LABELS = ['Identity', 'Call preferences', 'Care context']
 
 /*
  * Onboarding: the multi-step wizard for adding an elder.
@@ -19,6 +18,14 @@ const STEP_LABELS = ['Identity', 'Call preferences', 'Care context']
  */
 function Onboarding() {
   const step = useOnboardingStore((state) => state.step)
+  const { t } = useTranslation()
+
+  // Translated fresh on every render, so the labels follow the language
+  const stepLabels = [
+    t('elderForm.steps.identity'),
+    t('elderForm.steps.preferences'),
+    t('elderForm.steps.care'),
+  ]
 
   // Set once the POST /elders succeeds; switches to the success view
   const [createdElder, setCreatedElder] = useState(null)
@@ -43,14 +50,18 @@ function Onboarding() {
     return (
       <main className="onboarding">
         <div className="onboarding-card onboarding-success">
-          <h1 className="onboarding-title">All set! 💚</h1>
+          <h1 className="onboarding-title">{t('elderForm.success.title')}</h1>
           <p>
-            <strong>{createdElder.identity.name}</strong> has been added.
-            Our team will call to introduce ourselves before the first
-            scheduled call.
+            {/* Trans: the string has <strong> markup around the
+                interpolated name */}
+            <Trans
+              i18nKey="elderForm.success.text"
+              values={{ name: createdElder.identity.name }}
+              components={{ strong: <strong /> }}
+            />
           </p>
           <Link to="/dashboard" className="btn">
-            Back to dashboard
+            {t('elderForm.success.backToDashboard')}
           </Link>
         </div>
       </main>
@@ -59,10 +70,10 @@ function Onboarding() {
 
   return (
     <main className="onboarding">
-      <h1 className="onboarding-title">Set up calls for your parent</h1>
+      <h1 className="onboarding-title">{t('elderForm.pageTitle')}</h1>
 
       <div className="onboarding-card" ref={cardRef}>
-        <Stepper steps={STEP_LABELS} currentStep={step} />
+        <Stepper steps={stepLabels} currentStep={step} />
 
         {step === 0 && <IdentityStep />}
         {step === 1 && <PreferencesStep />}

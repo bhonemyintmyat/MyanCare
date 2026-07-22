@@ -1,16 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { callReports } from '../../data/mockDashboard.js'
 import '../../styles/Dashboard.css'
-
-/*
- * Everything the UI needs to know about each mood lives in one map:
- * the label text and the CSS class that colors the badge.
- * Adding a new mood later = one new entry here + one CSS rule.
- */
-const MOODS = {
-  good: { label: 'Good', className: 'mood-good' },
-  okay: { label: 'Okay', className: 'mood-okay' },
-  concerning: { label: 'Concerning', className: 'mood-concerning' },
-}
 
 // "2026-07-18" → "18 Jul 2026"
 function formatDate(isoDate) {
@@ -23,15 +13,30 @@ function formatDate(isoDate) {
 
 /*
  * Section 2: the list of wellness updates from recent calls.
+ *
+ * Each mood maps to a translated label + a CSS class for its color.
+ * The map lives inside the component because t() must run on every
+ * render — labels change when the language does.
  */
 function CallReports() {
+  const { t } = useTranslation()
+
+  const moods = {
+    good: { label: t('dashboard.reports.moodGood'), className: 'mood-good' },
+    okay: { label: t('dashboard.reports.moodOkay'), className: 'mood-okay' },
+    concerning: {
+      label: t('dashboard.reports.moodConcerning'),
+      className: 'mood-concerning',
+    },
+  }
+
   return (
     <section className="dash-card reports-card">
-      <h2 className="dash-card-title">Recent call reports</h2>
+      <h2 className="dash-card-title">{t('dashboard.reports.title')}</h2>
 
       <ul className="report-list">
         {callReports.map((report) => {
-          const mood = MOODS[report.mood]
+          const mood = moods[report.mood]
           return (
             <li className="report" key={report.id}>
               <div className="report-header">
@@ -42,7 +47,9 @@ function CallReports() {
                 </span>
               </div>
               <p className="report-summary">{report.summary}</p>
-              <p className="report-caller">— {report.caller}, your caller</p>
+              <p className="report-caller">
+                {t('dashboard.reports.caller', { name: report.caller })}
+              </p>
             </li>
           )
         })}

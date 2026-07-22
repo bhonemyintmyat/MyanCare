@@ -1,30 +1,26 @@
+import { useTranslation } from 'react-i18next'
 import '../styles/Hero.css'
 
 /*
  * Hero: the first thing visitors see.
- * Its job is to explain the service in one warm sentence
- * and point people to the "Get Started" button.
+ * All text comes from t() — see src/i18n/locales/ for the strings.
  */
 function Hero() {
+  const { t } = useTranslation()
+
   return (
     <section className="hero">
       <h1 className="hero-title">
-        Be there for your parents,
+        {t('hero.title1')}
         <br />
-        even from far away.
+        {t('hero.title2')}
       </h1>
-      <p className="hero-subtitle">
-        MyanCare makes warm, scheduled phone calls to your elderly parents in
-        Myanmar — no smartphone, no internet, just a friendly voice on the
-        phone they already have.
-      </p>
+      <p className="hero-subtitle">{t('hero.subtitle')}</p>
       {/* The button is a link that scrolls down to the pricing section */}
       <a href="#pricing" className="btn">
-        Get Started
+        {t('hero.cta')}
       </a>
-      <p className="hero-note">
-        For families working in Japan, Singapore, Thailand and beyond
-      </p>
+      <p className="hero-note">{t('hero.note')}</p>
     </section>
   )
 }

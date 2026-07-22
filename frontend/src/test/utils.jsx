@@ -6,6 +6,9 @@ import { MemoryRouter } from 'react-router-dom'
 import App from '../App.jsx'
 import { AuthProvider } from '../context/AuthContext.jsx'
 import { ToastProvider } from '../context/ToastContext.jsx'
+// Side-effect import: initializes the i18next singleton for tests
+// (main.jsx does this for the real app)
+import '../i18n/config'
 
 /*
  * Renders the real App with all its providers, starting at `route`.

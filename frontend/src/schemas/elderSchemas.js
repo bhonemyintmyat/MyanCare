@@ -3,60 +3,65 @@ import { z } from 'zod'
 /*
  * Zod schemas for elder onboarding.
  *
- * A schema describes what valid data looks like; zod checks values
- * against it and produces error messages when they don't fit.
+ * Each schema is now a FACTORY — a function taking t() and returning
+ * the schema. Why? Zod bakes error messages in when the schema is
+ * built; a plain module-level schema would freeze them in whatever
+ * language was active at import time. Building the schema at
+ * validation time (identitySchema(t)) keeps messages in the active
+ * language. Schemas are cheap to build, so this costs nothing real.
+ *
  * One schema per step lets each step validate itself, and the
- * composed elderSchema at the bottom validates everything together
- * on final submit.
+ * composed elderSchema validates everything together on final submit.
  */
 
 // Shared: phone numbers appear in two steps, so define the rule once
-const phoneRule = z
-  .string()
-  .regex(/^[0-9+\-\s]{7,}$/, 'Please enter a valid phone number (digits, +, - only).')
+const phoneRule = (t) =>
+  z.string().regex(/^[0-9+\-\s]{7,}$/, t('elderForm.errors.phone'))
 
 /* ---- Step 1: identity ---- */
-export const identitySchema = z.object({
-  name: z.string().trim().min(2, 'Please enter their full name.'),
-  // z.coerce turns the input's string "72" into the number 72 first
-  age: z.coerce
-    .number()
-    .int('Age should be a whole number.')
-    .min(50, 'MyanCare is designed for elders aged 50 and over.')
-    .max(120, 'Please double-check the age.'),
-  phone: phoneRule,
-  city: z.string().trim().min(2, 'Please enter their city or township.'),
-})
+export const identitySchema = (t) =>
+  z.object({
+    name: z.string().trim().min(2, t('elderForm.errors.name')),
+    // z.coerce turns the input's string "72" into the number 72 first
+    age: z.coerce
+      .number()
+      .int(t('elderForm.errors.ageInt'))
+      .min(50, t('elderForm.errors.ageMin'))
+      .max(120, t('elderForm.errors.ageMax')),
+    phone: phoneRule(t),
+    city: z.string().trim().min(2, t('elderForm.errors.city')),
+  })
 
 /* ---- Step 2: call preferences ---- */
-export const preferencesSchema = z.object({
-  // An array of checkbox values; at least one must be ticked
-  timeWindows: z
-    .array(z.string())
-    .min(1, 'Pick at least one time window for calls.'),
-  language: z.string().min(1, 'Please choose their language or dialect.'),
-})
+export const preferencesSchema = (t) =>
+  z.object({
+    // An array of checkbox values; at least one must be ticked
+    timeWindows: z.array(z.string()).min(1, t('elderForm.errors.timeWindows')),
+    language: z.string().min(1, t('elderForm.errors.language')),
+  })
 
 /* ---- Step 3: care context ---- */
-export const careContextSchema = z.object({
-  // Free-text fields are optional — not every family wants to share
-  conditions: z.string().trim().optional(),
-  topics: z.string().trim().optional(),
-  // ...but an emergency contact is required
-  emergencyName: z.string().trim().min(2, 'Please enter an emergency contact name.'),
-  emergencyPhone: phoneRule,
-})
+export const careContextSchema = (t) =>
+  z.object({
+    // Free-text fields are optional — not every family wants to share
+    conditions: z.string().trim().optional(),
+    topics: z.string().trim().optional(),
+    // ...but an emergency contact is required
+    emergencyName: z.string().trim().min(2, t('elderForm.errors.emergencyName')),
+    emergencyPhone: phoneRule(t),
+  })
 
 /*
  * The composed schema: all three steps as one nested object,
  * matching the shape of the Zustand store. Final submit runs this
  * so nothing slips through (e.g. if a step was skipped by a bug).
  */
-export const elderSchema = z.object({
-  identity: identitySchema,
-  preferences: preferencesSchema,
-  careContext: careContextSchema,
-})
+export const elderSchema = (t) =>
+  z.object({
+    identity: identitySchema(t),
+    preferences: preferencesSchema(t),
+    careContext: careContextSchema(t),
+  })
 
 /*
  * Helper used by every step: runs a schema against values and

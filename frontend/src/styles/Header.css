@@ -48,6 +48,24 @@
   color: var(--color-text-muted);
 }
 
+/* Language toggle: outlined pill so it reads as a control,
+   not another nav destination */
+.header-lang {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-green);
+  background: none;
+  border: 1.5px solid var(--color-green);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  cursor: pointer;
+}
+
+.header-lang:hover {
+  background-color: var(--color-green-soft);
+}
+
 /* "Log out" is a <button>, styled to look like the nav links */
 .header-logout {
   font: inherit;

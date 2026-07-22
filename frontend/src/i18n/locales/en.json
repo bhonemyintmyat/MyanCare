@@ -1,0 +1,209 @@
+{
+  "nav": {
+    "howItWorks": "How it works",
+    "pricing": "Pricing",
+    "dashboard": "Dashboard",
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "greeting": "Hi, {{name}}",
+    "changeLanguage": "Change language"
+  },
+  "hero": {
+    "title1": "Be there for your parents,",
+    "title2": "even from far away.",
+    "subtitle": "MyanCare makes warm, scheduled phone calls to your elderly parents in Myanmar — no smartphone, no internet, just a friendly voice on the phone they already have.",
+    "cta": "Get Started",
+    "note": "For families working in Japan, Singapore, Thailand and beyond"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "step1Title": "You subscribe",
+    "step1Text": "Sign up and record a short voice note for your parent, so our first call arrives with your voice.",
+    "step2Title": "We call your parent",
+    "step2Text": "Our trained caller phones your parent on the schedule you choose — a friendly chat on any GSM phone.",
+    "step3Title": "You get an update",
+    "step3Text": "After each call, you receive a wellness update so you always know how Mom and Dad are doing."
+  },
+  "pricing": {
+    "title": "Simple pricing",
+    "plan": "Monthly Care Plan",
+    "perMonth": "{{amount}} MMK <small>/ month</small>",
+    "feature1": "Scheduled calls to your parent — you pick the days",
+    "feature2": "Your recorded voice note, delivered with care",
+    "feature3": "A wellness update after every call",
+    "feature4": "Works on any GSM phone — no apps, no internet",
+    "cta": "Get Started",
+    "note": "Cancel anytime."
+  },
+  "auth": {
+    "signupTitle": "Create your account",
+    "signupIntro": "A few details and you're ready to set up caring calls.",
+    "labels": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone number",
+      "country": "Country you work in",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "placeholders": {
+      "fullName": "e.g. Aung Ko Min",
+      "email": "you@example.com",
+      "phone": "+81 90 1234 5678",
+      "password": "At least 8 characters",
+      "confirmPassword": "Same password again",
+      "loginPassword": "Your password"
+    },
+    "countries": {
+      "choose": "Choose a country…",
+      "japan": "Japan",
+      "singapore": "Singapore",
+      "thailand": "Thailand",
+      "other": "Other"
+    },
+    "errors": {
+      "fullName": "Please tell us your full name.",
+      "email": "That email doesn't look right — please double-check it.",
+      "phone": "Please enter a valid phone number (digits, +, - only).",
+      "country": "Please choose the country you work in.",
+      "password": "Your password needs at least 8 characters.",
+      "confirmPassword": "These passwords don't match yet.",
+      "loginEmail": "Please enter the email you signed up with.",
+      "loginPassword": "Please enter your password."
+    },
+    "signupSubmit": "Create account",
+    "signupSubmitting": "Creating your account…",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "signupToast": "Welcome to MyanCare! Your account is ready.",
+    "loginTitle": "Welcome back",
+    "loginIntro": "Log in to manage your caring calls.",
+    "loginSubmit": "Log in",
+    "loginSubmitting": "Logging in…",
+    "newHere": "New to MyanCare?",
+    "signupLink": "Create an account",
+    "loginToast": "Welcome back, {{name}}!"
+  },
+  "dashboard": {
+    "greeting": "Welcome back, {{name}}",
+    "subtitle": "Here's how things are going back home.",
+    "addAnother": "＋ Set up calls for another parent",
+    "parent": {
+      "title": "Your parent",
+      "detail": "{{age}} years old · {{township}}",
+      "gsmPhone": "GSM phone: {{phone}}",
+      "nextCall": "Next scheduled call"
+    },
+    "reports": {
+      "title": "Recent call reports",
+      "moodGood": "Good",
+      "moodOkay": "Okay",
+      "moodConcerning": "Concerning",
+      "caller": "— {{name}}, your caller"
+    },
+    "voice": {
+      "title": "Voice note for the next call",
+      "intro": "Record a short message — our caller will play it to <strong>your parent</strong> at the start of the call.",
+      "record": "Record",
+      "stop": "Stop recording",
+      "upload": "Upload audio",
+      "hint": "Recording… speak your message now.",
+      "micError": "We couldn't access your microphone. You can upload an audio file instead.",
+      "previewLabel": "Preview of your voice note",
+      "saved": "✓ Saved — it will play on the next call.",
+      "save": "Save for next call",
+      "toast": "Voice note saved — it will play on the next call."
+    },
+    "subscription": {
+      "title": "Subscription",
+      "plan": "Plan",
+      "price": "Price",
+      "status": "Status",
+      "nextPayment": "Next payment"
+    }
+  },
+  "elderForm": {
+    "pageTitle": "Set up calls for your parent",
+    "steps": {
+      "identity": "Identity",
+      "preferences": "Call preferences",
+      "care": "Care context"
+    },
+    "identity": {
+      "title": "About your parent",
+      "name": "Full name",
+      "namePlaceholder": "e.g. Daw Khin Myint",
+      "age": "Age",
+      "agePlaceholder": "e.g. 72",
+      "phone": "GSM phone number",
+      "phonePlaceholder": "09 xxx xxx xxx",
+      "city": "City or township",
+      "cityPlaceholder": "e.g. Mandalay"
+    },
+    "preferences": {
+      "title": "Call preferences",
+      "legend": "Which time windows suit them? (pick any)",
+      "morning": "Morning (8–11 AM)",
+      "afternoon": "Afternoon (12–4 PM)",
+      "evening": "Evening (5–8 PM)",
+      "language": "Language or dialect",
+      "chooseLanguage": "Choose a language…",
+      "burmese": "Burmese",
+      "rakhine": "Rakhine",
+      "shan": "Shan",
+      "karen": "Karen",
+      "mon": "Mon",
+      "other": "Other"
+    },
+    "care": {
+      "title": "Care context",
+      "optional": "(optional)",
+      "conditions": "Health conditions to keep an eye on",
+      "conditionsPlaceholder": "e.g. High blood pressure — takes medicine every morning",
+      "topics": "Conversation topics they enjoy",
+      "topicsPlaceholder": "e.g. Cooking, the monastery, football, grandchildren",
+      "emergencyName": "Emergency contact name",
+      "emergencyNamePlaceholder": "Someone nearby we can call if we're worried",
+      "emergencyPhone": "Emergency contact phone",
+      "emergencyPhonePlaceholder": "09 xxx xxx xxx"
+    },
+    "errors": {
+      "name": "Please enter their full name.",
+      "ageInt": "Age should be a whole number.",
+      "ageMin": "MyanCare is designed for elders aged 50 and over.",
+      "ageMax": "Please double-check the age.",
+      "phone": "Please enter a valid phone number (digits, +, - only).",
+      "city": "Please enter their city or township.",
+      "timeWindows": "Pick at least one time window for calls.",
+      "language": "Please choose their language or dialect.",
+      "emergencyName": "Please enter an emergency contact name.",
+      "reviewEarlier": "Something in an earlier step needs attention — please review."
+    },
+    "toastAdded": "{{name}} has been added.",
+    "toastError": "Could not save the profile. Please try again.",
+    "success": {
+      "title": "All set! 💚",
+      "text": "<strong>{{name}}</strong> has been added. Our team will call to introduce ourselves before the first scheduled call.",
+      "backToDashboard": "Back to dashboard"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "skipToContent": "Skip to content",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "saving": "Saving…",
+    "dismiss": "Dismiss notification",
+    "footerTagline": "Caring calls home, wherever you work.",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "That page doesn't exist — the link may be old or mistyped.",
+    "notFoundCta": "Back to the home page",
+    "errorTitle": "Something went wrong",
+    "errorText": "Sorry — the page hit an unexpected error. Your data is safe.",
+    "tryAgain": "Try again"
+  }
+}

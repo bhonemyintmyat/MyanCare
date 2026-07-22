@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext.jsx'
 import ParentCard from '../components/dashboard/ParentCard.jsx'
 import CallReports from '../components/dashboard/CallReports.jsx'
@@ -13,15 +14,16 @@ import '../styles/Dashboard.css'
  */
 function Dashboard() {
   const { user } = useAuth()
+  const { t } = useTranslation()
 
   return (
     <main className="dashboard">
       <h1 className="dashboard-greeting">
-        Welcome back, {user.fullName.split(' ')[0]}
+        {t('dashboard.greeting', { name: user.fullName.split(' ')[0] })}
       </h1>
       <p className="dashboard-subtitle">
-        Here&apos;s how things are going back home.{' '}
-        <Link to="/onboarding">＋ Set up calls for another parent</Link>
+        {t('dashboard.subtitle')}{' '}
+        <Link to="/onboarding">{t('dashboard.addAnother')}</Link>
       </p>
 
       {/* CSS grid arranges these four cards (see Dashboard.css) */}

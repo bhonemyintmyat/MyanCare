@@ -1,28 +1,19 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useOnboardingStore } from '../../stores/onboardingStore.js'
 import { preferencesSchema, getFieldErrors } from '../../schemas/elderSchemas.js'
 
-// Defined as data so adding a window later is a one-line change
-const TIME_WINDOWS = [
-  { value: 'morning', label: 'Morning (8–11 AM)' },
-  { value: 'afternoon', label: 'Afternoon (12–4 PM)' },
-  { value: 'evening', label: 'Evening (5–8 PM)' },
-]
-
-const LANGUAGES = [
-  { value: 'burmese', label: 'Burmese' },
-  { value: 'rakhine', label: 'Rakhine' },
-  { value: 'shan', label: 'Shan' },
-  { value: 'karen', label: 'Karen' },
-  { value: 'mon', label: 'Mon' },
-  { value: 'other', label: 'Other' },
-]
+// Values are stable identifiers (stored, sent to the API);
+// the labels shown next to them are translated at render time
+const TIME_WINDOW_VALUES = ['morning', 'afternoon', 'evening']
+const LANGUAGE_VALUES = ['burmese', 'rakhine', 'shan', 'karen', 'mon', 'other']
 
 /*
  * Step 2: when should we call, and in which language?
  */
 function PreferencesStep() {
   const { preferences, updateSection, setStep, step } = useOnboardingStore()
+  const { t } = useTranslation()
   const [errors, setErrors] = useState({})
 
   /*
@@ -45,7 +36,7 @@ function PreferencesStep() {
 
   function handleNext(event) {
     event.preventDefault()
-    const found = getFieldErrors(preferencesSchema, preferences)
+    const found = getFieldErrors(preferencesSchema(t), preferences)
     if (found) {
       setErrors(found)
       return
@@ -56,7 +47,7 @@ function PreferencesStep() {
   return (
     <form className="onboarding-form" onSubmit={handleNext} noValidate>
       <h2 className="onboarding-step-title" tabIndex={-1}>
-        Call preferences
+        {t('elderForm.preferences.title')}
       </h2>
 
       {/* A fieldset+legend groups related checkboxes accessibly;
@@ -66,16 +57,16 @@ function PreferencesStep() {
         aria-describedby={errors.timeWindows ? 'timeWindows-error' : undefined}
       >
         <legend className="checkbox-legend">
-          Which time windows suit them? (pick any)
+          {t('elderForm.preferences.legend')}
         </legend>
-        {TIME_WINDOWS.map((window) => (
-          <label className="checkbox-row" key={window.value}>
+        {TIME_WINDOW_VALUES.map((value) => (
+          <label className="checkbox-row" key={value}>
             <input
               type="checkbox"
-              checked={preferences.timeWindows.includes(window.value)}
-              onChange={() => toggleWindow(window.value)}
+              checked={preferences.timeWindows.includes(value)}
+              onChange={() => toggleWindow(value)}
             />
-            {window.label}
+            {t(`elderForm.preferences.${value}`)}
           </label>
         ))}
         {errors.timeWindows && (
@@ -86,7 +77,7 @@ function PreferencesStep() {
       </fieldset>
 
       <div className="form-field">
-        <label htmlFor="language">Language or dialect</label>
+        <label htmlFor="language">{t('elderForm.preferences.language')}</label>
         <select
           id="language"
           value={preferences.language}
@@ -94,10 +85,10 @@ function PreferencesStep() {
           aria-invalid={Boolean(errors.language)}
           aria-describedby={errors.language ? 'language-error' : undefined}
         >
-          <option value="">Choose a language…</option>
-          {LANGUAGES.map((lang) => (
-            <option value={lang.value} key={lang.value}>
-              {lang.label}
+          <option value="">{t('elderForm.preferences.chooseLanguage')}</option>
+          {LANGUAGE_VALUES.map((value) => (
+            <option value={value} key={value}>
+              {t(`elderForm.preferences.${value}`)}
             </option>
           ))}
         </select>
@@ -114,10 +105,10 @@ function PreferencesStep() {
           className="btn-secondary"
           onClick={() => setStep(step - 1)}
         >
-          Back
+          {t('common.back')}
         </button>
         <button type="submit" className="btn">
-          Next
+          {t('common.next')}
         </button>
       </div>
     </form>
