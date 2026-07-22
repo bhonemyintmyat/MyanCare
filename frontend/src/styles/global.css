@@ -28,20 +28,49 @@
 }
 
 body {
-  /* 'Myanmar Text' (Windows) and 'Noto Sans Myanmar' (Android/Linux)
-     make Burmese script render correctly when the UI is in Burmese */
+  /* Latin text uses the system stack. Myanmar glyphs fall through to
+     our self-hosted Noto Sans Myanmar (see fonts.css), then Padauk,
+     then whatever Myanmar font the OS ships. */
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto,
-    'Myanmar Text', 'Noto Sans Myanmar', sans-serif;
+    'Noto Sans Myanmar', 'Padauk', 'Myanmar Text', sans-serif;
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-cream);
 }
 
-/* Burmese script has stacked marks above and below the baseline —
-   it needs more vertical room than Latin text.
-   :lang(my) applies when <html lang="my"> is set (LanguageContext). */
-:lang(my) {
+/* ============================================================
+   Burmese-mode overrides.
+   config.ts stamps data-lang on <html> whenever the language
+   changes, so these apply the moment the user toggles.
+
+   Why each rule exists:
+   - font-size: Myanmar script reads visually smaller than Latin at
+     the same px size; 106.25% = 17px base (+1px), and because the
+     whole app is sized in rem, everything scales together.
+   - line-height: Burmese stacks diacritics above AND below the
+     baseline; at Latin line-heights the stacks clip. 1.9 gives
+     them room.
+   - letter-spacing: tracking breaks Myanmar glyph shaping/stacking,
+     so any decorative tracking goes back to normal.
+   ============================================================ */
+:root[data-lang='my'] {
+  font-size: 106.25%; /* 17px base instead of 16px */
+}
+
+:root[data-lang='my'] body {
   line-height: 1.9;
+}
+
+/* The hero headline's tight Latin line-height clips Burmese stacks */
+:root[data-lang='my'] .hero-title {
+  line-height: 1.6;
+}
+
+/* Uppercase-styled labels use tracking that must not apply to
+   Burmese (and uppercase itself is a no-op — Burmese has no case) */
+:root[data-lang='my'] .price-plan,
+:root[data-lang='my'] .next-call-label {
+  letter-spacing: normal;
 }
 
 a {

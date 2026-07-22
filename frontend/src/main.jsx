@@ -7,6 +7,7 @@ import { ToastProvider } from './context/ToastContext.jsx'
 // Side-effect import: initializes i18next ONCE for the whole app.
 // No provider needed — react-i18next hooks find the instance globally.
 import './i18n/config'
+import './styles/fonts.css'
 import './styles/global.css'
 
 /*

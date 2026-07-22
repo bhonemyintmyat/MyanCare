@@ -4,6 +4,32 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preload the Myanmar font weights the app actually uses, so
+         toggling to Burmese swaps in the real font without a visible
+         reflash. crossorigin is required on font preloads even for
+         same-origin files. Padauk (the fallback) is deliberately NOT
+         preloaded — it only downloads if Noto fails. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/noto-sans-myanmar-myanmar-400-normal.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/noto-sans-myanmar-myanmar-600-normal.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/noto-sans-myanmar-myanmar-700-normal.woff2"
+    />
     <title>MyanCare</title>
   </head>
   <body>

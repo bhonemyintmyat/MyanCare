@@ -65,15 +65,33 @@ describe('translation files', () => {
     expect(keyPaths(my).sort()).toEqual(keyPaths(en).sort())
   })
 
-  test('en.json has no TODO placeholders (those belong in my.json only)', () => {
-    const values = []
-    function collect(objekt) {
-      for (const value of Object.values(objekt)) {
-        if (typeof value === 'object' && value !== null) collect(value)
-        else values.push(value)
-      }
+  // Collects every leaf value as [keyPath, value] pairs
+  function entries(objekt, prefix = '') {
+    return Object.entries(objekt).flatMap(([key, value]) =>
+      typeof value === 'object' && value !== null
+        ? entries(value, `${prefix}${key}.`)
+        : [[`${prefix}${key}`, value]],
+    )
+  }
+
+  test.each([
+    ['en', en],
+    ['my', my],
+  ])('%s.json has no untranslated TODO placeholders', (_name, file) => {
+    const todos = entries(file).filter(([, v]) => v.startsWith('TODO:'))
+    expect(todos).toEqual([])
+  })
+
+  test('my.json keeps every interpolation placeholder from en.json', () => {
+    // A translator dropping {{name}} would render a message with a
+    // silently missing value — catch that here rather than in prod.
+    const placeholders = (s) => (s.match(/\{\{\w+\}\}/g) ?? []).sort()
+    const myByKey = Object.fromEntries(entries(my))
+
+    for (const [key, value] of entries(en)) {
+      expect(placeholders(myByKey[key]), `key: ${key}`).toEqual(
+        placeholders(value),
+      )
     }
-    collect(en)
-    expect(values.filter((v) => v.startsWith('TODO:'))).toEqual([])
   })
 })
