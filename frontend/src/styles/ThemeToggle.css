@@ -1,0 +1,46 @@
+/* Fixed to the top-right corner of the page, above everything, so
+   the theme switch is reachable on every route and after scrolling.
+   The header reserves space (padding-right) so it never overlaps. */
+.theme-toggle {
+  position: fixed;
+  top: 0.9rem;
+  right: 1rem;
+  z-index: 150;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+
+  color: var(--color-green);
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  /* soft lift so it reads as a floating control over any section */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-green-soft);
+}
+
+/* Keyboard focus needs a clearly visible ring in both themes */
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle {
+    transition: none;
+  }
+}

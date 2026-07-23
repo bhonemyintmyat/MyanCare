@@ -25,6 +25,10 @@ afterEach(async () => {
   server.resetHandlers() // undo any per-test handler overrides
   localStorage.clear() // fresh "database" and session for every test
 
+  // ThemeContext stamps data-theme on <html>; clear it so a dark-mode
+  // test doesn't leak into the next test's initial theme
+  delete document.documentElement.dataset.theme
+
   // The i18next instance is a singleton — put it back in English so
   // a language-toggle test can't leak Burmese into the next test
   const { default: i18n } = await import('../i18n/config')

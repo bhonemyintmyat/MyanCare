@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
+import ThemeToggle from './components/ThemeToggle.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import RouteFocus from './components/RouteFocus.jsx'
@@ -40,6 +41,9 @@ function App() {
       <a className="skip-link" href="#main-content">
         {t('common.skipToContent')}
       </a>
+
+      {/* Fixed light/dark switch in the top-right corner, on every route */}
+      <ThemeToggle />
 
       {/* Moves focus into the content when the route changes */}
       <RouteFocus />

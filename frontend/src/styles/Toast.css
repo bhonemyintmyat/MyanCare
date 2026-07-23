@@ -26,7 +26,7 @@
 }
 
 .toast-success {
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
   color: var(--color-white);
 }
 

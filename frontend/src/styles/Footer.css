@@ -1,7 +1,10 @@
 /* Footer uses the dark green so the page ends on a solid, grounded note */
+/* The footer is a dark-green block in BOTH themes, so its text uses
+   --color-on-brand (a light tone that isn't flipped for dark mode)
+   rather than --color-cream, which becomes dark in dark mode. */
 .footer {
   background-color: var(--color-green-dark);
-  color: var(--color-cream);
+  color: var(--color-on-brand);
   text-align: center;
   padding: 2.5rem 1.5rem;
 }
@@ -25,7 +28,7 @@
 }
 
 .footer-links a {
-  color: var(--color-cream);
+  color: var(--color-on-brand);
   font-size: 0.9rem;
 }
 

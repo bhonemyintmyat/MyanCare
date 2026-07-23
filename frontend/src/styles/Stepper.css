@@ -29,7 +29,7 @@
 /* The line "fills in" green once the step is reached */
 .stepper-active:not(:first-child)::before,
 .stepper-done:not(:first-child)::before {
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
 }
 
 .stepper-circle {
@@ -48,7 +48,7 @@
 }
 
 .stepper-active .stepper-circle {
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
   color: var(--color-white);
 }
 

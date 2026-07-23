@@ -6,18 +6,63 @@
    ============================================================ */
 
 :root {
-  /* Color palette: warm, trustworthy greens and creams */
+  color-scheme: light; /* native controls (scrollbars, selects) render light */
+
+  /* Color palette: warm, trustworthy greens and creams.
+     These are the LIGHT-mode values; the dark block below overrides
+     the theme-dependent ones. Anything a component might need to
+     recolor for dark mode reads from one of these tokens. */
   --color-cream: #faf6ee;        /* page background */
-  --color-cream-dark: #f3ecdd;   /* alternating section background */
-  --color-green: #2f6b4f;        /* primary brand green (buttons, headings) */
-  --color-green-dark: #24523d;   /* hover state, footer background */
-  --color-green-soft: #e6efe7;   /* light green tint for cards/badges */
+  --color-cream-dark: #f3ecdd;   /* alternating section background, subtle borders */
+  --color-green: #2f6b4f;        /* brand green used as TEXT/accents (headings, links) */
+  --color-green-dark: #24523d;   /* hover state, footer background (stays dark both modes) */
+  --color-green-soft: #e6efe7;   /* soft green tint behind badges/circles */
   --color-text: #2b3430;         /* near-black with a green undertone */
   --color-text-muted: #5f6d64;   /* secondary text */
-  --color-white: #ffffff;
+  --color-white: #ffffff;        /* literal white — text on colored fills */
+
+  /* Semantic tokens layered on top, so dark mode only overrides these.
+     --color-green-fill is the green used as a BUTTON FILL (white text on
+     it); it's separate from --color-green because on a dark background the
+     text-green must lighten while the fill must stay dark enough for white
+     text to stay readable. */
+  --color-surface: var(--color-white);   /* card & input backgrounds */
+  --color-border: #d5cfc0;                /* input borders */
+  --color-green-fill: var(--color-green); /* button/badge fills */
+  /* A fixed light tone for text on green surfaces (the footer is dark
+     green in BOTH themes). It's a literal value, not var(--color-cream):
+     a var() reference would resolve to cream's DARK value in dark mode
+     and turn the footer text unreadable. */
+  --color-on-brand: #faf6ee;
 
   /* One radius used everywhere keeps the look consistent */
   --radius: 12px;
+}
+
+/* ============================================================
+   Dark theme. ThemeContext stamps data-theme="dark" on <html>
+   (and an inline script in index.html sets it before first paint,
+   so returning dark-mode users never see a light flash).
+   Light mode is the default and needs no attribute.
+
+   Only theme-dependent tokens are overridden — every component
+   already reads from them, so no component CSS changes per-color.
+   ============================================================ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-cream: #141a17;        /* page background (very dark green-gray) */
+  --color-cream-dark: #1e2622;   /* alt bands + subtle borders */
+  --color-green: #5cc08e;        /* brand green as TEXT — light enough for dark bg */
+  --color-green-soft: #21302a;   /* dark green tint behind badges/circles */
+  --color-text: #e7ece9;         /* near-white body text */
+  --color-text-muted: #9baaa1;   /* secondary text */
+
+  --color-surface: #1c231f;      /* cards & inputs sit just above the page */
+  --color-border: #35423b;       /* input borders, visible but not harsh */
+  --color-green-fill: #2f8060;   /* button fills — white text stays readable */
+  /* --color-green-dark and --color-on-brand keep their light-mode values:
+     the footer stays a dark-green block with light text in both themes. */
 }
 
 /* Reset: remove browser default margins and make sizing predictable */
@@ -36,6 +81,15 @@ body {
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-cream);
+  /* Ease the color swap when toggling themes (disabled for users
+     who prefer reduced motion, below) */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 
 /* ============================================================
@@ -90,7 +144,7 @@ html {
 /* Shared button style, used by Hero and Pricing */
 .btn {
   display: inline-block;
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
   color: var(--color-white);
   font-size: 1rem;
   font-weight: 600;
@@ -120,7 +174,7 @@ html {
   position: absolute;
   left: -9999px;
   z-index: 200;
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
   color: var(--color-white);
   font-weight: 600;
   padding: 0.6rem 1rem;
@@ -191,9 +245,10 @@ html {
 .form-field select {
   font: inherit;
   padding: 0.65rem 0.85rem;
-  border: 1px solid #d5cfc0;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background-color: var(--color-white);
+  background-color: var(--color-surface);
+  color: var(--color-text); /* typed text follows the theme (light on dark) */
 }
 
 .form-field input:focus,

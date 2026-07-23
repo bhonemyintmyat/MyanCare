@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Apply a saved dark theme BEFORE the page paints, so returning
+         dark-mode users never see a flash of the default light theme.
+         Light needs no attribute (it's the CSS default). -->
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('myancare_theme') === 'dark') {
+            document.documentElement.dataset.theme = 'dark'
+          }
+        } catch (e) {}
+      })()
+    </script>
     <!-- Preload the Myanmar font weights the app actually uses, so
          toggling to Burmese swaps in the real font without a visible
          reflash. crossorigin is required on font preloads even for

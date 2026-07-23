@@ -5,6 +5,9 @@
   flex-wrap: wrap; /* on narrow phones the nav can drop to a second row */
   gap: 0.5rem;
   padding: 1rem 1.5rem;
+  /* extra right padding reserves the top-right corner for the fixed
+     ThemeToggle, so nav items never sit underneath it */
+  padding-right: 4rem;
   background-color: var(--color-cream);
   border-bottom: 1px solid var(--color-cream-dark);
 }
@@ -33,7 +36,7 @@
 
 /* "Sign up" stands out as a small pill button */
 .header-nav a.header-cta {
-  background-color: var(--color-green);
+  background-color: var(--color-green-fill);
   color: var(--color-white);
   padding: 0.35rem 0.9rem;
   border-radius: 999px;

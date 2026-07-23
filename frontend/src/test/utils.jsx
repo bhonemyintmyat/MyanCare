@@ -4,6 +4,7 @@
 import { render } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../App.jsx'
+import { ThemeProvider } from '../context/ThemeContext.jsx'
 import { AuthProvider } from '../context/AuthContext.jsx'
 import { ToastProvider } from '../context/ToastContext.jsx'
 // Side-effect import: initializes the i18next singleton for tests
@@ -18,11 +19,13 @@ import '../i18n/config'
 export function renderApp(route = '/') {
   return render(
     <MemoryRouter initialEntries={[route]}>
-      <AuthProvider>
-        <ToastProvider>
-          <App />
-        </ToastProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <App />
+          </ToastProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </MemoryRouter>,
   )
 }

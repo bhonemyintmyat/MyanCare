@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
 // Side-effect import: initializes i18next ONCE for the whole app.
@@ -27,6 +28,7 @@ async function enableMocking() {
  * The app waits for MSW to be ready before rendering, so the very
  * first fetch is already interceptable. Providers, outermost first:
  * - BrowserRouter: enables client-side navigation
+ * - ThemeProvider: shares light/dark mode
  * - AuthProvider:  shares the logged-in user
  * - ToastProvider: lets any component pop up feedback messages
  */
@@ -34,11 +36,13 @@ enableMocking().then(() => {
   createRoot(document.getElementById('root')).render(
     <StrictMode>
       <BrowserRouter>
-        <AuthProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </StrictMode>,
   )

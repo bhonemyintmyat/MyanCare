@@ -191,6 +191,8 @@
   "common": {
     "loading": "Loading…",
     "skipToContent": "Skip to content",
+    "themeToDark": "Switch to dark mode",
+    "themeToLight": "Switch to light mode",
     "next": "Next",
     "back": "Back",
     "finish": "Finish",
